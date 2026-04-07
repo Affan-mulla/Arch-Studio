@@ -240,7 +240,7 @@ export function SplitImageReveal({ src, alt, className }: SplitImageRevealProps)
       ref={ref}
       role="img"
       aria-label={alt}
-      className={`relative isolate overflow-hidden border border-black/8 bg-[#d7ded3] will-change-transform ${className ?? ""}`}
+      className={`relative isolate overflow-hidden border border-black/8 bg-[#d7ded3] before:absolute before:inset-0 before:bg-gradient-to-r before:from-[#d0d8ce] before:via-[#dae2d7] before:to-[#d0d8ce] before:animate-pulse before:-z-10 will-change-transform ${className ?? ""}`}
       style={{ opacity: frameOpacity, scale: frameScale, y: floatY, rotateY: frameRotateY }}
     >
       {[0, 1, 2, 3].map((index) => (
@@ -434,8 +434,8 @@ export function LandingPage() {
         <section className=" py-10 sm:py-14 lg:py-16">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-end">
             <SectionReveal>
-              <h1 className="font-(family-name:--font-cormorant) text-[clamp(3.3rem,9.2vw,8.3rem)] leading-[0.92] text-[#263226]">
-                Architectural <span className="italic">Innovations</span>
+              <h1 className="font-(family-name:--font-cormorant) text-[clamp(2.6rem,9.2vw,8.3rem)] leading-[0.92] text-[#263226]">
+                Architectural <span className="italic font-thin">Innovations</span>
                 <br />
                 Habitats
               </h1>
@@ -470,6 +470,25 @@ export function LandingPage() {
           <InfinitePartnerTicker items={trustedPartners} />
         </SectionReveal>
         </section>
+
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col items-center gap-2 border-b border-black/12 py-6"
+        >
+          <span className="font-(family-name:--font-jost) text-[0.65rem] uppercase tracking-[0.22em] text-[#9aa39a]">
+            Scroll to explore
+          </span>
+          <motion.span
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            className="text-lg text-[#9aa39a]"
+            aria-hidden
+          >
+            ↓
+          </motion.span>
+        </motion.div>
 
         
 
@@ -528,24 +547,29 @@ export function LandingPage() {
               <SectionReveal
                 key={card.id}
                 delay={index * 0.08}
-                className="relative flex min-h-[420px] flex-col border border-black/10 bg-[#d0d8ce] p-9"
               >
-                <span className="font-(family-name:--font-jost) text-3xl text-[#85907f]">
-                  {card.id}
-                </span>
-                <h3 className="mt-9 max-w-sm font-(family-name:--font-cormorant) text-5xl leading-[0.92] text-[#2f3c2f]">
-                  {card.title}
-                </h3>
-                <p className="mt-8 max-w-md font-(family-name:--font-jost) text-[1.3rem] leading-relaxed text-[#5e695f]">
-                  {card.body}
-                </p>
-                <button
-                  type="button"
-                  className="mt-auto h-12 w-12 rounded-[2px] bg-[#253425] text-2xl text-[#dce4d9] transition-colors hover:bg-[#3a4b3a]"
-                  aria-label={`Read more about ${card.title}`}
+                <motion.div
+                  whileHover={{ y: -4, boxShadow: "0 8px 32px rgba(0,0,0,0.08)" }}
+                  transition={{ duration: 0.25 }}
+                  className="relative flex min-h-[420px] flex-col border border-black/10 bg-[#d0d8ce] p-9"
                 >
-                  →
-                </button>
+                  <span className="font-(family-name:--font-jost) text-3xl text-[#85907f]">
+                    {card.id}
+                  </span>
+                  <h3 className="mt-9 max-w-sm font-(family-name:--font-cormorant) text-5xl leading-[0.92] text-[#2f3c2f]">
+                    {card.title}
+                  </h3>
+                  <p className="mt-8 max-w-md font-(family-name:--font-jost) text-[1.3rem] leading-relaxed text-[#5e695f]">
+                    {card.body}
+                  </p>
+                  <button
+                    type="button"
+                    className="mt-auto h-12 w-12 rounded-[2px] bg-[#253425] text-2xl text-[#dce4d9] transition-colors hover:bg-[#3a4b3a]"
+                    aria-label={`Read more about ${card.title}`}
+                  >
+                    →
+                  </button>
+                </motion.div>
               </SectionReveal>
             ))}
           </div>
@@ -562,27 +586,32 @@ export function LandingPage() {
               <SectionReveal
                 key={item.name}
                 delay={index * 0.09}
-                className="flex min-h-[360px] flex-col border border-black/10 bg-[#d3dbd0] p-8"
               >
-                <blockquote className="font-(family-name:--font-cormorant) text-[2.1rem] leading-[1.02] text-[#2c382d]">
-                  “{item.quote}”
-                </blockquote>
-                <div className="mt-auto flex items-center gap-4 border-t border-black/11 pt-7">
-                  <div
-                    role="img"
-                    aria-label={item.name}
-                    className="h-14 w-14 rounded-full bg-cover bg-center"
-                    style={{ backgroundImage: `url(${item.avatar})` }}
-                  />
-                  <div>
-                    <p className="font-(family-name:--font-jost) text-[1.2rem] uppercase tracking-[0.08em] text-[#424f43]">
-                      {item.name}
-                    </p>
-                    <p className="font-(family-name:--font-jost) text-base uppercase tracking-[0.08em] text-[#818b7d]">
-                      {item.role}
-                    </p>
+                <motion.div
+                  whileHover={{ y: -3, boxShadow: "0 6px 24px rgba(0,0,0,0.07)" }}
+                  transition={{ duration: 0.25 }}
+                  className="flex min-h-[360px] flex-col border border-black/10 bg-[#d3dbd0] p-8"
+                >
+                  <blockquote className="font-(family-name:--font-cormorant) text-[2.1rem] leading-[1.02] text-[#2c382d]">
+                    “{item.quote}”
+                  </blockquote>
+                  <div className="mt-auto flex items-center gap-4 border-t border-black/11 pt-7">
+                    <div
+                      role="img"
+                      aria-label={item.name}
+                      className="h-14 w-14 rounded-full bg-cover bg-center"
+                      style={{ backgroundImage: `url(${item.avatar})` }}
+                    />
+                    <div>
+                      <p className="font-(family-name:--font-jost) text-[1.2rem] uppercase tracking-[0.08em] text-[#424f43]">
+                        {item.name}
+                      </p>
+                      <p className="font-(family-name:--font-jost) text-base uppercase tracking-[0.08em] text-[#818b7d]">
+                        {item.role}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </motion.div>
               </SectionReveal>
             ))}
           </div>
@@ -695,22 +724,27 @@ export function LandingPage() {
                       className="w-full border-b border-black/18 bg-transparent px-1 pb-4 font-(family-name:--font-jost) text-[1.25rem] text-[#304030] placeholder:text-[#7f897a] outline-none transition-colors focus:border-[#364736]"
                     />
                   </label>
-                  <label className="block">
-                    <span className="sr-only">Project Type</span>
-                    <select
-                      name="projectType"
-                      defaultValue=""
-                      className="w-full border-b border-black/18 bg-transparent px-1 pb-4 font-(family-name:--font-jost) text-[1.25rem] text-[#304030] outline-none transition-colors focus:border-[#364736]"
-                    >
-                      <option value="" disabled>
-                        Project Type
-                      </option>
-                      <option value="residential">Residential</option>
-                      <option value="commercial">Commercial</option>
-                      <option value="institutional">Institutional</option>
-                      <option value="mixed-use">Mixed Use</option>
-                    </select>
-                  </label>
+                  <div className="relative">
+                    <label className="block">
+                      <span className="sr-only">Project Type</span>
+                      <select
+                        name="projectType"
+                        defaultValue=""
+                        className="w-full appearance-none cursor-pointer border-b border-black/18 bg-transparent px-1 pb-4 font-(family-name:--font-jost) text-[1.25rem] text-[#304030] outline-none transition-colors focus:border-[#364736]"
+                      >
+                        <option value="" disabled>
+                          Project Type
+                        </option>
+                        <option value="residential">Residential</option>
+                        <option value="commercial">Commercial</option>
+                        <option value="institutional">Institutional</option>
+                        <option value="mixed-use">Mixed Use</option>
+                      </select>
+                    </label>
+                    <span className="pointer-events-none absolute bottom-5 right-1 text-sm text-[#7f897a]" aria-hidden>
+                      ↓
+                    </span>
+                  </div>
                   <label className="block">
                     <span className="sr-only">Brief Description</span>
                     <textarea

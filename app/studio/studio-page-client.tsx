@@ -76,7 +76,7 @@ export function StudioPageClient() {
             <p className="font-(family-name:--font-jost) text-xs uppercase tracking-[0.18em] text-[#7b8577] sm:text-sm">
               Est. 2018
             </p>
-            <h1 className="mt-5 font-(family-name:--font-cormorant) text-[clamp(3.3rem,9.2vw,8.3rem)] leading-[0.92] text-[#263226]">
+            <h1 className="mt-5 font-(family-name:--font-cormorant) text-[clamp(2.6rem,9.2vw,8.3rem)] leading-[0.92] text-[#263226]">
               We Build for the <span className="italic">Next</span> Century
             </h1>
             <p className="mt-8 max-w-4xl font-(family-name:--font-jost) text-[1.2rem] leading-relaxed text-[#687368] sm:text-[1.65rem]">

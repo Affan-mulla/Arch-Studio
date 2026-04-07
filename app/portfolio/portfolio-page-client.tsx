@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useId, useMemo, useState } from "react";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
 import { SectionReveal, SplitImageReveal } from "../sections/landing-page";
@@ -81,6 +81,7 @@ const projects = [
 
 export function PortfolioPageClient() {
   const [activeFilter, setActiveFilter] = useState<Category>("All");
+  const portfolioGridId = useId();
 
   const filteredProjects = useMemo(
     () =>
@@ -135,37 +136,47 @@ export function PortfolioPageClient() {
         </section>
 
         <section className="border-b border-black/12 py-12 sm:py-16 lg:py-20">
-          <div className="grid gap-6 md:grid-cols-2">
-            {filteredProjects.map((project, index) => (
-              <SectionReveal key={project.name} delay={index * 0.05}>
-                <motion.article
-                  whileHover={{ scale: 1.01 }}
-                  transition={{ duration: 0.25 }}
-                  className="rounded-sm border border-black/10 bg-[#d3dbd0] p-4"
+          <AnimatePresence mode="popLayout">
+            <div className="grid gap-6 md:grid-cols-2">
+              {filteredProjects.map((project, index) => (
+                <motion.div
+                  key={project.name}
+                  layout
+                  initial={{ opacity: 0, scale: 0.97 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.97 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1], delay: index * 0.04 }}
                 >
-                  <SplitImageReveal
-                    src={project.image}
-                    alt={project.name}
-                    className={project.height}
-                  />
-                  <div className="pt-5">
-                    <h2 className="font-(family-name:--font-cormorant) text-[2rem] leading-[0.95] text-[#2c382d] sm:text-[2.3rem]">
-                      {project.name}
-                    </h2>
-                    <p className="mt-2 font-(family-name:--font-jost) text-xs uppercase tracking-[0.16em] text-[#7b8577] sm:text-sm">
-                      {project.location} {project.year}
-                    </p>
-                    <p className="mt-3 inline-block border border-black/12 px-2 py-1 font-(family-name:--font-jost) text-[10px] uppercase tracking-[0.16em] text-[#5f6a5f] sm:text-xs">
-                      {project.category}
-                    </p>
-                    <p className="mt-3 font-(family-name:--font-jost) text-lg leading-relaxed text-[#5e695f] sm:text-[1.1rem]">
-                      {project.description}
-                    </p>
-                  </div>
-                </motion.article>
-              </SectionReveal>
-            ))}
-          </div>
+                  <motion.article
+                    layoutId={`${portfolioGridId}-${project.name}`}
+                    whileHover={{ scale: 1.01 }}
+                    transition={{ duration: 0.25 }}
+                    className="rounded-sm border border-black/10 bg-[#d3dbd0] p-4"
+                  >
+                    <SplitImageReveal
+                      src={project.image}
+                      alt={project.name}
+                      className={project.height}
+                    />
+                    <div className="pt-5">
+                      <h2 className="font-(family-name:--font-cormorant) text-[2rem] leading-[0.95] text-[#2c382d] sm:text-[2.3rem]">
+                        {project.name}
+                      </h2>
+                      <p className="mt-2 font-(family-name:--font-jost) text-xs uppercase tracking-[0.16em] text-[#7b8577] sm:text-sm">
+                        {project.location} {project.year}
+                      </p>
+                      <p className="mt-3 inline-block border border-black/12 px-2 py-1 font-(family-name:--font-jost) text-[10px] uppercase tracking-[0.16em] text-[#5f6a5f] sm:text-xs">
+                        {project.category}
+                      </p>
+                      <p className="mt-3 font-(family-name:--font-jost) text-lg leading-relaxed text-[#5e695f] sm:text-[1.1rem]">
+                        {project.description}
+                      </p>
+                    </div>
+                  </motion.article>
+                </motion.div>
+              ))}
+            </div>
+          </AnimatePresence>
         </section>
       </div>
 

@@ -151,7 +151,7 @@ export function JournalPageClient() {
         </section>
       </div>
 
-      <section className="border-b border-black/12 bg-[#2a3324] py-12 sm:py-16 lg:py-20">
+      <section className="mt-0 overflow-hidden border-b border-black/12 bg-[#2a3324] py-12 sm:py-16 lg:py-20">
         <div className="mx-auto w-full max-w-330 px-4 sm:px-6 lg:px-10">
           <SectionReveal>
             <h2 className="font-(family-name:--font-cormorant) text-[clamp(2.4rem,5.5vw,4.8rem)] leading-[0.95] text-white">

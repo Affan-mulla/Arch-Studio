@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
 import {
@@ -60,9 +61,24 @@ export function VisionPageClient() {
               is a measurable commitment to enduring ecological and social value.
             </p>
           </SectionReveal>
+          <div className="mt-8 flex justify-center">
+            <a
+              href="#manifesto"
+              className="inline-flex items-center gap-2 font-(family-name:--font-jost) text-xs uppercase tracking-[0.18em] text-[#7b8577] transition-colors hover:text-[#2c3c2d]"
+            >
+              Read the Manifesto
+              <motion.span
+                animate={{ y: [0, 4, 0] }}
+                transition={{ duration: 1.6, repeat: Infinity }}
+                aria-hidden
+              >
+                ↓
+              </motion.span>
+            </a>
+          </div>
         </section>
 
-        <section className="border-b border-black/12 py-12 sm:py-16 lg:py-20">
+        <section id="manifesto" className="border-b border-black/12 py-12 sm:py-16 lg:py-20">
           <SectionReveal>
             <p className="font-(family-name:--font-jost) text-xs uppercase tracking-[0.18em] text-[#7b8577] sm:text-sm">
               Manifesto
