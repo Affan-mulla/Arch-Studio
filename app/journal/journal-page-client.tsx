@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { BreadcrumbJsonLd } from "../components/json-ld";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
 import { SectionReveal } from "../components/ui/section-reveal";
@@ -57,6 +58,12 @@ const articles = [
 export function JournalPageClient() {
   return (
     <main className="relative  overflow-x-clip bg-[#d8e0d5] text-[#2a3329]">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Journal", href: "/journal" },
+        ]}
+      />
 
        
       <div className="relative mx-auto w-full max-w-330 px-4 sm:px-6 lg:px-10">
@@ -114,6 +121,7 @@ export function JournalPageClient() {
                 src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80"
                 alt="Passive architecture in warm climate"
                 className="h-[360px]"
+                isPriority
               />
             </SectionReveal>
           </div>

@@ -1,13 +1,19 @@
 "use client";
 
+import { lazy, Suspense } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
 import { InfinitePartnerTicker } from "../components/ui/infinite-ticker";
-import { ParallaxDepthShowcase } from "../components/ui/parallax-depth-showcase";
 import { SectionReveal } from "../components/ui/section-reveal";
 import { SplitImageReveal } from "../components/ui/split-image-reveal";
+
+const LazyParallax = lazy(() =>
+  import("../components/ui/parallax-depth-showcase").then((m) => ({
+    default: m.ParallaxDepthShowcase,
+  })),
+);
 
 type ExpertiseCard = {
   id: string;
@@ -122,6 +128,7 @@ export function LandingPage() {
                 src="https://images.unsplash.com/photo-1451976426598-a7593bd6d0b2?q=100&w=570"
                 alt="Corner detail of a modern timber structure"
                 className="h-55"
+                isPriority
               />
               <p className="max-w-sm font-(family-name:--font-jost) text-lg leading-relaxed text-[#687368]">
                 Developing timeless structures with minimal environmental footprint,
@@ -292,12 +299,18 @@ export function LandingPage() {
 
         <section className="border-b border-black/12 py-12 sm:py-16 lg:py-20">
           <SectionReveal>
-            <ParallaxDepthShowcase
-              src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/1011c60a-8855-4004-9fb1-f4ec3c3c6c6f_1600w.webp"
-              alt="Panoramic modern residence integrated into a natural landscape"
-              eyebrow="Perspective"
-              title="Construct Your Masterpiece"
-            />
+            <Suspense
+              fallback={
+                <div className="relative mb-10 h-[340px] bg-[#d0d8ce] sm:h-[470px] lg:h-[720px] animate-pulse" />
+              }
+            >
+              <LazyParallax
+                src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/1011c60a-8855-4004-9fb1-f4ec3c3c6c6f_1600w.webp"
+                alt="Panoramic modern residence integrated into a natural landscape"
+                eyebrow="Perspective"
+                title="Construct Your Masterpiece"
+              />
+            </Suspense>
           </SectionReveal>
         </section>
 

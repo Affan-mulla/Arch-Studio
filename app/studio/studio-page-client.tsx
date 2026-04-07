@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { BreadcrumbJsonLd } from "../components/json-ld";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
 import { ParallaxDepthShowcase } from "../components/ui/parallax-depth-showcase";
@@ -59,6 +60,12 @@ const principles = [
 export function StudioPageClient() {
   return (
     <main className="relative overflow-x-clip bg-[#d8e0d5] text-[#2a3329]">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Studio", href: "/studio" },
+        ]}
+      />
       <div className="relative mx-auto w-full max-w-330 px-4 sm:px-6 lg:px-10">
          <div
         aria-hidden
@@ -111,6 +118,7 @@ export function StudioPageClient() {
                 src="https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1200&q=80"
                 alt="Architecture studio process and drafting"
                 className="h-[320px] sm:h-[480px]"
+                isPriority
               />
             </SectionReveal>
           </div>

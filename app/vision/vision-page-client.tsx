@@ -1,12 +1,19 @@
 "use client";
 
+import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
+import { BreadcrumbJsonLd } from "../components/json-ld";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
-import { InfinitePartnerTicker } from "../components/ui/infinite-ticker";
 import { ParallaxDepthShowcase } from "../components/ui/parallax-depth-showcase";
 import { SectionReveal } from "../components/ui/section-reveal";
 import { SplitImageReveal } from "../components/ui/split-image-reveal";
+
+const LazyInfinitePartnerTicker = lazy(() =>
+  import("../components/ui/infinite-ticker").then((m) => ({
+    default: m.InfinitePartnerTicker,
+  })),
+);
 
 const manifesto = [
   {
@@ -32,6 +39,12 @@ const manifesto = [
 export function VisionPageClient() {
   return (
     <main className="relative overflow-x-clip bg-[#d8e0d5] text-[#2a3329]">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Vision", href: "/vision" },
+        ]}
+      />
       <div className="relative mx-auto w-full max-w-330 px-4 sm:px-6 lg:px-10">
          <div
         aria-hidden
@@ -50,6 +63,7 @@ export function VisionPageClient() {
               alt="Visionary architecture under open sky"
               eyebrow="Our Philosophy"
               title="Architecture as a Living System"
+              isPriority
             />
           </SectionReveal>
           <SectionReveal delay={0.12}>
@@ -152,18 +166,20 @@ export function VisionPageClient() {
               Accreditations
             </p>
           </SectionReveal>
-          <InfinitePartnerTicker
-            items={[
-              "RIBA",
-              "LEED",
-              "BREEAM",
-              "Passivhaus",
-              "WELL Building",
-              "ISO 14001",
-              "AJ100",
-              "Dezeen Award",
-            ]}
-          />
+          <Suspense fallback={<div className="relative mt-5 h-[58px] animate-pulse border-y border-black/12" />}>
+            <LazyInfinitePartnerTicker
+              items={[
+                "RIBA",
+                "LEED",
+                "BREEAM",
+                "Passivhaus",
+                "WELL Building",
+                "ISO 14001",
+                "AJ100",
+                "Dezeen Award",
+              ]}
+            />
+          </Suspense>
         </section>
       </div>
 

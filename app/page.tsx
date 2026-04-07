@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { LandingPage } from "./sections/landing-page";
 
 export const metadata: Metadata = {
-  title: "Architectural Innovations Habitats",
+  title: "London Architectural Studio | Ecological & Sustainable Design",
   description:
-    "Vanguardis crafts future-ready architecture with ecological intelligence, engineering precision, and timeless spatial design.",
+    "Vanguardis is a London architectural studio crafting future-ready spaces through ecological engineering, passive design, and structural precision. RIBA-standard work across residential, commercial, and institutional projects.",
   alternates: {
     canonical: "/",
   },

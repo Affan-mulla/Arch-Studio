@@ -1,27 +1,38 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Jost, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { OrganizationJsonLd, WebSiteJsonLd } from "./components/json-ld";
 import { PageTransition } from "./components/page-transition";
+import { PreloadLinks } from "./components/preload-links";
 import { ScrollReset } from "./components/scroll-reset";
+import { BASE_URL } from "./lib/constants";
 import { SmoothScrollProvider } from "./smooth-scroll-provider";
 
 const jost = Jost({
   variable: "--font-jost",
   subsets: ["latin"],
+  display: "swap",
+  preload: true,
+  weight: ["300", "400", "500", "600"],
 });
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
+  display: "swap",
+  preload: true,
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vanguardis.studio"),
+  metadataBase: new URL(BASE_URL),
   title: {
     default: "Vanguardis | Architectural Studio",
     template: "%s | Vanguardis",
@@ -29,13 +40,22 @@ export const metadata: Metadata = {
   description:
     "Vanguardis is an architectural studio delivering resilient, future-ready spaces through ecological engineering and refined modern design.",
   keywords: [
-    "architecture studio",
-    "sustainable architecture",
-    "structural engineering",
-    "eco architecture",
-    "residential design",
-    "commercial architecture",
+    "architectural studio London",
+    "sustainable architecture UK",
+    "ecological architectural design",
+    "structural engineering London",
+    "passive house design",
+    "low carbon architecture",
+    "RIBA architect London",
+    "award winning architecture studio",
+    "residential architecture UK",
+    "commercial architecture London",
+    "net zero architecture",
+    "bioclimatic design",
   ],
+  other: {
+    "dns-prefetch": "//images.unsplash.com",
+  },
   applicationName: "Vanguardis",
   alternates: {
     canonical: "/",
@@ -58,7 +78,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_GB",
-    url: "https://vanguardis.studio",
+    url: BASE_URL,
     siteName: "Vanguardis",
     title: "Vanguardis | Architectural Studio",
     description:
@@ -83,6 +103,16 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#D8E0D5" },
+    { media: "(prefers-color-scheme: dark)", color: "#2C3C2D" },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -94,6 +124,9 @@ export default function RootLayout({
       className={`${jost.variable} ${cormorant.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <PreloadLinks />
+        <OrganizationJsonLd />
+        <WebSiteJsonLd />
         <ScrollReset />
         <SmoothScrollProvider>
           <PageTransition>{children}</PageTransition>

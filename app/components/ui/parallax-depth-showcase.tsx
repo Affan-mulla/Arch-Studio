@@ -9,10 +9,11 @@ type ParallaxDepthProps = {
   alt: string;
   eyebrow: string;
   title: string;
+  isPriority?: boolean;
 };
 
-export function ParallaxDepthShowcase({ src, alt, eyebrow, title }: ParallaxDepthProps) {
-  const ref = useRef<HTMLDivElement | null>(null);
+export function ParallaxDepthShowcase({ src, alt, eyebrow, title, isPriority = false }: ParallaxDepthProps) {
+  const ref = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -69,7 +70,7 @@ export function ParallaxDepthShowcase({ src, alt, eyebrow, title }: ParallaxDept
         className="absolute inset-0 [transform-style:preserve-3d]"
         style={{ transform: imageTransform }}
       >
-        <SplitImageReveal src={src} alt={alt} className="h-full" />
+        <SplitImageReveal src={src} alt={alt} className="h-full" isPriority={isPriority} />
       </motion.div>
 
       <motion.div

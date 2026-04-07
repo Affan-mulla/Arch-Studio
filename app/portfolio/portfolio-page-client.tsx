@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
+import { BreadcrumbJsonLd } from "../components/json-ld";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
 import { SectionReveal } from "../components/ui/section-reveal";
@@ -93,6 +94,12 @@ export function PortfolioPageClient() {
 
   return (
     <main className="relative overflow-x-clip bg-[#d8e0d5] text-[#2a3329]">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Portfolio", href: "/portfolio" },
+        ]}
+      />
       <div className="relative mx-auto w-full max-w-330 px-4 sm:px-6 lg:px-10">
          <div
         aria-hidden
@@ -160,6 +167,7 @@ export function PortfolioPageClient() {
                       src={project.image}
                       alt={project.name}
                       className={project.height}
+                      isPriority={index === 0}
                     />
                     <div className="pt-5">
                       <h2 className="font-(family-name:--font-cormorant) text-[2rem] leading-[0.95] text-[#2c382d] sm:text-[2.3rem]">

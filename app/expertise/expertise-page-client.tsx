@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import { BreadcrumbJsonLd } from "../components/json-ld";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
 import { SectionReveal } from "../components/ui/section-reveal";
@@ -84,6 +85,12 @@ export function ExpertisePageClient() {
 
   return (
     <main className="relative overflow-x-clip bg-[#d8e0d5] text-[#2a3329]">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Expertise", href: "/expertise" },
+        ]}
+      />
       <div className="relative mx-auto w-full max-w-330 px-4 sm:px-6 lg:px-10">
          <div
         aria-hidden
@@ -215,6 +222,7 @@ export function ExpertisePageClient() {
               src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1400&q=80"
               alt="Engineering blueprint detail"
               className="h-[280px] sm:h-[420px] lg:h-[560px]"
+              isPriority
             />
           </SectionReveal>
         </section>

@@ -47,3 +47,20 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+.will-change-transform {
+  will-change: transform;
+  contain: layout style;
+}
+
+img {
+  content-visibility: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

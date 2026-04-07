@@ -1,12 +1,20 @@
 import type { MetadataRoute } from "next";
+import { BASE_URL } from "./lib/constants";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-    },
-    sitemap: "https://vanguardis.studio/sitemap.xml",
-    host: "https://vanguardis.studio",
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/", "/_next/", "/static/"],
+      },
+      {
+        userAgent: "Googlebot-Image",
+        allow: "/",
+      },
+    ],
+    sitemap: `${BASE_URL}/sitemap.xml`,
+    host: BASE_URL,
   };
 }
