@@ -1,8 +1,10 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
-import { SectionReveal, SplitImageReveal } from "../sections/landing-page";
+import { SectionReveal } from "../components/ui/section-reveal";
+import { SplitImageReveal } from "../components/ui/split-image-reveal";
 
 const articles = [
   {
@@ -123,28 +125,33 @@ export function JournalPageClient() {
               <SectionReveal
                 key={article.title}
                 delay={index * 0.05}
-                className="border border-black/10 bg-[#d3dbd0] p-4"
               >
-                <SplitImageReveal
-                  src={article.image}
-                  alt={article.title}
-                  className="h-[220px]"
-                />
-                <p className="mt-4 font-(family-name:--font-jost) text-xs uppercase tracking-[0.14em] text-[#7b8577] sm:text-sm">
-                  {article.tag} · {article.date}
-                </p>
-                <h3 className="mt-2 font-(family-name:--font-cormorant) text-[1.8rem] leading-[0.95] text-[#2c382d] sm:text-[2.1rem]">
-                  {article.title}
-                </h3>
-                <p className="mt-3 font-(family-name:--font-jost) text-lg leading-relaxed text-[#5f6a5f] sm:text-[1.1rem]">
-                  {article.excerpt}
-                </p>
-                <a
-                  href="#"
-                  className="mt-5 inline-block border-b border-black/20 pb-1 font-(family-name:--font-jost) text-sm uppercase tracking-[0.12em] text-[#304030]"
+                <motion.div
+                  whileHover={{ y: -4, boxShadow: "0 8px 32px rgba(0,0,0,0.08)" }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="border border-black/10 bg-[#d3dbd0] p-4"
                 >
-                  Read →
-                </a>
+                  <SplitImageReveal
+                    src={article.image}
+                    alt={article.title}
+                    className="h-[220px]"
+                  />
+                  <p className="mt-4 font-(family-name:--font-jost) text-xs uppercase tracking-[0.14em] text-[#7b8577] sm:text-sm">
+                    {article.tag} · {article.date}
+                  </p>
+                  <h3 className="mt-2 font-(family-name:--font-cormorant) text-[1.8rem] leading-[0.95] text-[#2c382d] sm:text-[2.1rem]">
+                    {article.title}
+                  </h3>
+                  <p className="mt-3 font-(family-name:--font-jost) text-lg leading-relaxed text-[#5f6a5f] sm:text-[1.1rem]">
+                    {article.excerpt}
+                  </p>
+                  <a
+                    href="#"
+                    className="mt-5 inline-block border-b border-black/20 pb-1 font-(family-name:--font-jost) text-sm uppercase tracking-[0.12em] text-[#304030]"
+                  >
+                    Read →
+                  </a>
+                </motion.div>
               </SectionReveal>
             ))}
           </div>

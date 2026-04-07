@@ -4,10 +4,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
-import {
-  SectionReveal,
-  SplitImageReveal,
-} from "../sections/landing-page";
+import { SectionReveal } from "../components/ui/section-reveal";
+import { SplitImageReveal } from "../components/ui/split-image-reveal";
 
 const services = [
   {

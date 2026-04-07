@@ -1,14 +1,7 @@
 "use client";
 
 import Link from "next/link";
-
-const navItems = [
-  { label: "Studio", href: "/studio" },
-  { label: "Expertise", href: "/expertise" },
-  { label: "Vision", href: "/vision" },
-  { label: "Portfolio", href: "/portfolio" },
-  { label: "Journal", href: "/journal" },
-];
+import { navItems } from "../lib/nav-items";
 
 export function Footer() {
   return (
@@ -38,26 +31,6 @@ export function Footer() {
               >
                 Start a Conversation <span aria-hidden>↗</span>
               </Link>
-            </div>
-
-            <div className="lg:justify-self-end">
-              <div className="grid grid-cols-2 gap-x-8 gap-y-3 pt-2">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="font-(family-name:--font-jost) text-sm uppercase tracking-[0.14em] text-[#b9c2b1] transition-colors hover:text-white"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-                <Link
-                  href="/studio#contact"
-                  className="font-(family-name:--font-jost) text-sm uppercase tracking-[0.14em] text-[#b9c2b1] transition-colors hover:text-white"
-                >
-                  Contact
-                </Link>
-              </div>
             </div>
           </div>
 

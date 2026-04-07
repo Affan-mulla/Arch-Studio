@@ -1,10 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useId, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
-import { SectionReveal, SplitImageReveal } from "../sections/landing-page";
+import { SectionReveal } from "../components/ui/section-reveal";
+import { SplitImageReveal } from "../components/ui/split-image-reveal";
 
 type Category = "All" | "Residential" | "Commercial" | "Institutional" | "Mixed-Use";
 
@@ -81,7 +82,6 @@ const projects = [
 
 export function PortfolioPageClient() {
   const [activeFilter, setActiveFilter] = useState<Category>("All");
-  const portfolioGridId = useId();
 
   const filteredProjects = useMemo(
     () =>
@@ -142,16 +142,19 @@ export function PortfolioPageClient() {
                 <motion.div
                   key={project.name}
                   layout
-                  initial={{ opacity: 0, scale: 0.97 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  initial={{ opacity: 0, y: 16, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.97 }}
-                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1], delay: index * 0.04 }}
+                  transition={{
+                    duration: 0.38,
+                    ease: [0.22, 1, 0.36, 1],
+                    delay: index * 0.04,
+                  }}
                 >
                   <motion.article
-                    layoutId={`${portfolioGridId}-${project.name}`}
-                    whileHover={{ scale: 1.01 }}
-                    transition={{ duration: 0.25 }}
-                    className="rounded-sm border border-black/10 bg-[#d3dbd0] p-4"
+                    whileHover={{ y: -4, boxShadow: "0 10px 40px rgba(0,0,0,0.09)" }}
+                    transition={{ duration: 0.22 }}
+                    className="rounded-sm border border-black/10 bg-[#d3dbd0] p-4 cursor-pointer"
                   >
                     <SplitImageReveal
                       src={project.image}

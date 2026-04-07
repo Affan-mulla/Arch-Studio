@@ -1,12 +1,11 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
-import {
-  ParallaxDepthShowcase,
-  SectionReveal,
-  SplitImageReveal,
-} from "../sections/landing-page";
+import { ParallaxDepthShowcase } from "../components/ui/parallax-depth-showcase";
+import { SectionReveal } from "../components/ui/section-reveal";
+import { SplitImageReveal } from "../components/ui/split-image-reveal";
 
 const team = [
   {
@@ -132,23 +131,28 @@ export function StudioPageClient() {
               <SectionReveal
                 key={member.name}
                 delay={index * 0.07}
-                className="border border-black/10 bg-[#d3dbd0] p-6"
               >
-                <div
-                  className="h-64 rounded-sm bg-cover bg-center"
-                  style={{ backgroundImage: `url(${member.image})` }}
-                  aria-label={member.name}
-                  role="img"
-                />
-                <h3 className="mt-5 font-(family-name:--font-cormorant) text-5xl leading-[0.95] text-[#2c382d]">
-                  {member.name}
-                </h3>
-                <p className="mt-2 font-(family-name:--font-jost) text-xs uppercase tracking-[0.16em] text-[#7d8678] sm:text-sm">
-                  {member.role}
-                </p>
-                <p className="mt-4 font-(family-name:--font-jost) text-lg leading-relaxed text-[#5e695f] sm:text-[1.2rem]">
-                  {member.bio}
-                </p>
+                <motion.div
+                  whileHover={{ y: -4, boxShadow: "0 8px 32px rgba(0,0,0,0.08)" }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="border border-black/10 bg-[#d3dbd0] p-6"
+                >
+                  <div
+                    className="h-64 rounded-sm bg-cover bg-center"
+                    style={{ backgroundImage: `url(${member.image})` }}
+                    aria-label={member.name}
+                    role="img"
+                  />
+                  <h3 className="mt-5 font-(family-name:--font-cormorant) text-5xl leading-[0.95] text-[#2c382d]">
+                    {member.name}
+                  </h3>
+                  <p className="mt-2 font-(family-name:--font-jost) text-xs uppercase tracking-[0.16em] text-[#7d8678] sm:text-sm">
+                    {member.role}
+                  </p>
+                  <p className="mt-4 font-(family-name:--font-jost) text-lg leading-relaxed text-[#5e695f] sm:text-[1.2rem]">
+                    {member.bio}
+                  </p>
+                </motion.div>
               </SectionReveal>
             ))}
           </div>

@@ -3,12 +3,10 @@
 import { motion } from "framer-motion";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
-import {
-  InfinitePartnerTicker,
-  ParallaxDepthShowcase,
-  SectionReveal,
-  SplitImageReveal,
-} from "../sections/landing-page";
+import { InfinitePartnerTicker } from "../components/ui/infinite-ticker";
+import { ParallaxDepthShowcase } from "../components/ui/parallax-depth-showcase";
+import { SectionReveal } from "../components/ui/section-reveal";
+import { SplitImageReveal } from "../components/ui/split-image-reveal";
 
 const manifesto = [
   {

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { PageTransition } from "./components/page-transition";
+import { ScrollReset } from "./components/scroll-reset";
 import { SmoothScrollProvider } from "./smooth-scroll-provider";
 
 const jost = Jost({
@@ -92,7 +94,10 @@ export default function RootLayout({
       className={`${jost.variable} ${cormorant.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+        <ScrollReset />
+        <SmoothScrollProvider>
+          <PageTransition>{children}</PageTransition>
+        </SmoothScrollProvider>
       </body>
     </html>
   );

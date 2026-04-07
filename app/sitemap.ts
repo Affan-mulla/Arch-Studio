@@ -2,16 +2,19 @@ import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
+  const routes = [
+    { path: "/", priority: 1, freq: "weekly" },
+    { path: "/studio", priority: 0.9, freq: "monthly" },
+    { path: "/expertise", priority: 0.9, freq: "monthly" },
+    { path: "/vision", priority: 0.8, freq: "monthly" },
+    { path: "/portfolio", priority: 0.9, freq: "weekly" },
+    { path: "/journal", priority: 0.7, freq: "weekly" },
+  ] as const;
 
-  return [
-    {
-      url: "https://vanguardis.studio",
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 1,
-      images: [
-        "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1600&q=80",
-      ],
-    },
-  ];
+  return routes.map(({ path, priority, freq }) => ({
+    url: `https://vanguardis.studio${path}`,
+    lastModified: now,
+    changeFrequency: freq,
+    priority,
+  }));
 }

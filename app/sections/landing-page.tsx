@@ -1,20 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import {
-  motion,
-  useAnimationFrame,
-  useSpring,
-  type MotionValue,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  useMotionTemplate,
-} from "framer-motion";
-import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
+import { InfinitePartnerTicker } from "../components/ui/infinite-ticker";
+import { ParallaxDepthShowcase } from "../components/ui/parallax-depth-showcase";
+import { SectionReveal } from "../components/ui/section-reveal";
+import { SplitImageReveal } from "../components/ui/split-image-reveal";
 
 type ExpertiseCard = {
   id: string;
@@ -27,19 +20,6 @@ type Testimonial = {
   name: string;
   role: string;
   avatar: string;
-};
-
-type SplitImageRevealProps = {
-  src: string;
-  alt: string;
-  className?: string;
-};
-
-type ParallaxDepthProps = {
-  src: string;
-  alt: string;
-  eyebrow: string;
-  title: string;
 };
 
 const trustedPartners = [
@@ -107,313 +87,6 @@ const metrics = [
   ["Structural Lifespan Est.", "120+ Years"],
   ["Maintenance Reduction", "30% lower overhead"],
 ];
-
-export function SectionReveal({
-  children,
-  className,
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-}) {
-  const shouldReduceMotion = useReducedMotion();
-
-  return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function SplitColumn({
-  index,
-  image,
-  progress,
-  floatY,
-  reduceMotion,
-}: {
-  index: number;
-  image: string;
-  progress: MotionValue<number>;
-  floatY: MotionValue<number>;
-  reduceMotion: boolean;
-}) {
-  const fromY = index % 2 === 0 ? -72 : 72;
-  const start = index * 0.06;
-  const entryProgress = useTransform(progress, [start, 1], [0, 1]);
-
-  const entryY = useTransform(
-    entryProgress,
-    [0, 1],
-    reduceMotion ? [0, 0] : [fromY, 0],
-  );
-  const entryOpacity = useTransform(
-    entryProgress,
-    [0, 1],
-    reduceMotion ? [1, 1] : [0.22, 1],
-  );
-
-  const columnFloat = useTransform(
-    floatY,
-    (value) => (reduceMotion ? 0 : value * (index % 2 === 0 ? 0.36 : 0.44)),
-  );
-  const y = useTransform([entryY, columnFloat], ([a, b]: number[]) => a + b);
-
-  return (
-    <motion.div
-      aria-hidden
-      className="absolute top-0 h-full overflow-hidden will-change-transform"
-      style={{
-        left: `${index * 25}%`,
-        width: "25%",
-        y,
-        opacity: entryOpacity,
-      }}
-    >
-      <div
-        className="absolute inset-y-0 w-[400%] bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${image})`,
-          left: `-${index * 100}%`,
-        }}
-      />
-    </motion.div>
-  );
-}
-
-export function SplitImageReveal({ src, alt, className }: SplitImageRevealProps) {
-  const ref = useRef<HTMLElement | null>(null);
-  const shouldReduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 145,
-    damping: 32,
-    mass: 0.34,
-  });
-
-  const revealProgress = useTransform(
-    smoothProgress,
-    [0.06, 0.36],
-    shouldReduceMotion ? [1, 1] : [0, 1],
-  );
-
-  const floatBase = useTransform(
-    smoothProgress,
-    [0, 0.5, 1],
-    shouldReduceMotion ? [0, 0, 0] : [6, 0, -6],
-  );
-  const floatY = useSpring(floatBase, {
-    stiffness: 120,
-    damping: 26,
-    mass: 0.5,
-  });
-
-  const frameOpacity = useTransform(
-    revealProgress,
-    [0, 1],
-    shouldReduceMotion ? [1, 1] : [0.5, 1],
-  );
-  const frameScale = useTransform(
-    revealProgress,
-    [0, 1],
-    shouldReduceMotion ? [1, 1] : [0.992, 1],
-  );
-  const frameRotateY = useTransform(
-    smoothProgress,
-    [0, 1],
-    shouldReduceMotion ? [0, 0] : [-0.4, 0.4],
-  );
-
-  return (
-    <motion.figure
-      ref={ref}
-      role="img"
-      aria-label={alt}
-      className={`relative isolate overflow-hidden border border-black/8 bg-[#d7ded3] before:absolute before:inset-0 before:bg-gradient-to-r before:from-[#d0d8ce] before:via-[#dae2d7] before:to-[#d0d8ce] before:animate-pulse before:-z-10 will-change-transform ${className ?? ""}`}
-      style={{ opacity: frameOpacity, scale: frameScale, y: floatY, rotateY: frameRotateY }}
-    >
-      {[0, 1, 2, 3].map((index) => (
-        <SplitColumn
-          key={`${src}-col-${index}`}
-          index={index}
-          image={src}
-          progress={revealProgress}
-          floatY={floatY}
-          reduceMotion={Boolean(shouldReduceMotion)}
-        />
-      ))}
-      <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/14 via-transparent to-transparent" />
-    </motion.figure>
-  );
-}
-
-export function ParallaxDepthShowcase({ src, alt, eyebrow, title }: ParallaxDepthProps) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const shouldReduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 88%", "end 15%"],
-  });
-
-  const imageY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    shouldReduceMotion ? [0, 0] : [46, -44],
-  );
-  const imageScale = useTransform(
-    scrollYProgress,
-    [0, 1],
-    shouldReduceMotion ? [1, 1] : [1.07, 1],
-  );
-  const imageRotateX = useTransform(
-    scrollYProgress,
-    [0, 1],
-    shouldReduceMotion ? [0, 0] : [5, -3],
-  );
-  const imageRotateY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    shouldReduceMotion ? [0, 0] : [-3, 2],
-  );
-  const imageTransform = useMotionTemplate`translate3d(0px, ${imageY}px, 0px) rotateX(${imageRotateX}deg) rotateY(${imageRotateY}deg) scale(${imageScale})`;
-
-  const textY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    shouldReduceMotion ? [0, 0] : [78, -86],
-  );
-  const textZ = useTransform(
-    scrollYProgress,
-    [0, 1],
-    shouldReduceMotion ? [0, 0] : [30, 130],
-  );
-  const textRotateX = useTransform(
-    scrollYProgress,
-    [0, 1],
-    shouldReduceMotion ? [0, 0] : [-6, 4],
-  );
-  const textOpacity = useTransform(
-    scrollYProgress,
-    [0, 1],
-    shouldReduceMotion ? [1, 1] : [0.65, 1],
-  );
-  const textTransform = useMotionTemplate`translate3d(0px, ${textY}px, ${textZ}px) rotateX(${textRotateX}deg)`;
-
-  return (
-    <div ref={ref} className="relative mb-10 h-[340px] overflow-hidden [perspective:1300px] sm:h-[470px] lg:h-[720px]">
-      <motion.div
-        className="absolute inset-0 [transform-style:preserve-3d]"
-        style={{ transform: imageTransform }}
-      >
-        <SplitImageReveal src={src} alt={alt} className="h-full" />
-      </motion.div>
-
-      <motion.div
-        className="pointer-events-none absolute inset-0 z-20 flex w-full items-center justify-center px-4 [transform-style:preserve-3d] bg-black/15"
-        style={{ transform: textTransform, opacity: textOpacity }}
-      >
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="mb-3 block font-body text-xs uppercase tracking-[0.16em] text-[#f1f4eb] sm:text-sm">
-          {eyebrow}
-          </span>
-          <h2 className="text-[clamp(2.25rem,6.4vw,6.15rem)] leading-[0.94] text-[#f6f8f2]">
-          {title}
-          </h2>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-export function InfinitePartnerTicker({ items }: { items: string[] }) {
-  const shouldReduceMotion = useReducedMotion();
-  const trackRef = useRef<HTMLUListElement | null>(null);
-  const trackWidthRef = useRef(0);
-  const x = useMotionValue(0);
-  const speedPxPerSecond = 56;
-  const loopItems = [...items, ...items];
-
-  useEffect(() => {
-    const updateTrackWidth = () => {
-      if (!trackRef.current) {
-        return;
-      }
-
-      trackWidthRef.current = trackRef.current.scrollWidth / 2;
-    };
-
-    updateTrackWidth();
-
-    const resizeObserver = new ResizeObserver(updateTrackWidth);
-    if (trackRef.current) {
-      resizeObserver.observe(trackRef.current);
-    }
-
-    window.addEventListener("resize", updateTrackWidth);
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener("resize", updateTrackWidth);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (shouldReduceMotion) {
-      x.set(0);
-    }
-  }, [shouldReduceMotion, x]);
-
-  useAnimationFrame((_, delta) => {
-    if (shouldReduceMotion) {
-      return;
-    }
-
-    const trackWidth = trackWidthRef.current;
-    if (!trackWidth) {
-      return;
-    }
-
-    const step = (speedPxPerSecond * delta) / 1000;
-    const next = x.get() - step;
-    x.set(next <= -trackWidth ? next + trackWidth : next);
-  });
-
-  return (
-    <div className="relative mt-5 overflow-hidden border-y border-black/12 py-4">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-14 bg-linear-to-r from-[#d8e0d5] to-transparent sm:w-24"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-14 bg-linear-to-l from-[#d8e0d5] to-transparent sm:w-24"
-      />
-
-      <motion.ul
-        ref={trackRef}
-        className="flex min-w-max items-center gap-8 font-(family-name:--font-jost) text-[0.78rem] font-medium uppercase tracking-[0.2em] text-[#7f897e] sm:gap-10 sm:text-xs"
-        style={{ x }}
-      >
-        {loopItems.map((item, index) => (
-          <li key={`${item}-${index}`} className="shrink-0 whitespace-nowrap">
-            {item}
-          </li>
-        ))}
-      </motion.ul>
-    </div>
-  );
-}
 
 export function LandingPage() {
   return (
@@ -549,8 +222,8 @@ export function LandingPage() {
                 delay={index * 0.08}
               >
                 <motion.div
-                  whileHover={{ y: -4, boxShadow: "0 8px 32px rgba(0,0,0,0.08)" }}
-                  transition={{ duration: 0.25 }}
+                  whileHover={{ y: -5, boxShadow: "0 12px 40px rgba(0,0,0,0.1)" }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
                   className="relative flex min-h-[420px] flex-col border border-black/10 bg-[#d0d8ce] p-9"
                 >
                   <span className="font-(family-name:--font-jost) text-3xl text-[#85907f]">
@@ -588,8 +261,8 @@ export function LandingPage() {
                 delay={index * 0.09}
               >
                 <motion.div
-                  whileHover={{ y: -3, boxShadow: "0 6px 24px rgba(0,0,0,0.07)" }}
-                  transition={{ duration: 0.25 }}
+                  whileHover={{ y: -4, boxShadow: "0 8px 32px rgba(0,0,0,0.08)" }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
                   className="flex min-h-[360px] flex-col border border-black/10 bg-[#d3dbd0] p-8"
                 >
                   <blockquote className="font-(family-name:--font-cormorant) text-[2.1rem] leading-[1.02] text-[#2c382d]">
@@ -740,10 +413,13 @@ export function LandingPage() {
                         <option value="institutional">Institutional</option>
                         <option value="mixed-use">Mixed Use</option>
                       </select>
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute right-1 bottom-4 text-[#7f897a] text-sm"
+                      >
+                        ↓
+                      </span>
                     </label>
-                    <span className="pointer-events-none absolute bottom-5 right-1 text-sm text-[#7f897a]" aria-hidden>
-                      ↓
-                    </span>
                   </div>
                   <label className="block">
                     <span className="sr-only">Brief Description</span>
